@@ -1,0 +1,7 @@
+# Database and anything private
+data/
+*.sqlite
+.env
+
+# Editor files
+.vscode/
