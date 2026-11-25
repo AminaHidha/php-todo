@@ -26,6 +26,6 @@ require_once __DIR__ . '/helpers.php';
         <?php endif; ?>
     </nav>
 
-    <p>Deployed with Nginx and PHP-FPM.</p>
+    <p>Deployed with Nginx, PHP-FPM and Git.</p>
 </body>
 </html>
