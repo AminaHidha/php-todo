@@ -8,6 +8,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     redirect('index.php');
 }
 
+verifyCsrf();
+
 // 1. Clear the session data
 $_SESSION = [];
 

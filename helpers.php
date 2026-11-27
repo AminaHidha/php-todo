@@ -37,3 +37,32 @@ function requireLogin(): void
         redirect('login.php');
     }
 }
+
+// ---------- CSRF protection ----------
+
+// One random secret per session, created the first time it is needed
+function csrfToken(): string
+{
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
+}
+
+// Put this inside every POST form (like {% csrf_token %} in Django)
+function csrfField(): string
+{
+    return '<input type="hidden" name="csrf_token" value="' . e(csrfToken()) . '">';
+}
+
+// Call this at the start of every POST handler
+function verifyCsrf(): void
+{
+    $sent = $_POST['csrf_token'] ?? '';
+    $real = $_SESSION['csrf_token'] ?? '';
+
+    if (!is_string($sent) || $real === '' || !hash_equals($real, $sent)) {
+        http_response_code(419);
+        exit('Invalid request (CSRF token mismatch). Go back, refresh the page and try again.');
+    }
+}
